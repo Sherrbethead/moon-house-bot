@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "moon-house-bot"
+version = "0.1.0"
+description = "Home duties helper bot"
+authors = ["Sergey Bakanov <bakanovsergs@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8.5"
+aiogram = "^2.12.1"
+pony = "^0.7.14"
+dynaconf = "^3.1.4"
+psycopg2-binary = "^2.8.6"
+APScheduler = "^3.7.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

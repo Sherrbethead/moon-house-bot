@@ -1,0 +1,3 @@
+token = 'very very secret'
+target_chat_id = 'secret as hell'
+database = {provider = 'postgres', user = 'postgres', password = 'postgres', host = 'localhost', name = 'moon_house'}
