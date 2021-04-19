@@ -684,11 +684,17 @@ async def check_dishwasher_loading():
 
 
 def schedule_daily_notifications():
-    now = datetime.now()
+    now_with_gap = datetime.now().astimezone() + timedelta(seconds=5)
 
     scheduler.add_job(show_cron_rating, 'cron', hour=0, minute=0)
     scheduler.add_job(show_cron_closest_parties, 'cron', hour=0, minute=0)
-    scheduler.add_job(check_dishwasher_loading, 'cron', hour=now.hour, minute=now.minute + 1)
+    scheduler.add_job(
+        check_dishwasher_loading,
+        'cron',
+        hour=now_with_gap.hour,
+        minute=now_with_gap.minute,
+        second=now_with_gap.second
+    )
 
 
 async def on_startup(dp):
