@@ -66,7 +66,7 @@ async def process_calendar_selection(query, data):
     if data['act'] == 'ROLLBACK':
         await query.message.delete_reply_markup()
         return data['act']
-    if data['act'] == 'IGNORE':
+    elif data['act'] == 'IGNORE':
         await query.answer(cache_time=60)
     # user picked a day button, return date
     elif data['act'] == 'DAY':

@@ -686,8 +686,8 @@ async def check_dishwasher_loading():
 def schedule_daily_notifications():
     now = datetime.now()
 
-    scheduler.add_job(show_cron_rating, 'cron', hour=14, minute=25)
-    scheduler.add_job(show_cron_closest_parties, 'cron', hour=14, minute=1)
+    scheduler.add_job(show_cron_rating, 'cron', hour=0, minute=0)
+    scheduler.add_job(show_cron_closest_parties, 'cron', hour=0, minute=0)
     scheduler.add_job(check_dishwasher_loading, 'cron', hour=now.hour, minute=now.minute + 1)
 
 
