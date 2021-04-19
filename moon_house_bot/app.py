@@ -674,7 +674,7 @@ async def check_dishwasher_loading():
     ))
     dishwasher_last_notification = await notification_query.order_by(Notification.created.desc()).gino.first()
     dishwasher_working_minutes = timedelta(minutes=DISHWASHER_TIME_LOADING)
-    if dishwasher_last_notification.notification_type == 'dishwasher_load' and \
+    if dishwasher_last_notification and dishwasher_last_notification.notification_type == 'dishwasher_load' and \
             dishwasher_last_notification.created + dishwasher_working_minutes > datetime.now().astimezone():
         scheduler.add_job(
             send_dishwasher_unload_notify,
