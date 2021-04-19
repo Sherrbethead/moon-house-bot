@@ -7,7 +7,6 @@ class User(BaseModel):
     chat_id = db.Column(db.Integer(), primary_key=True, unique=True, autoincrement=False)
     firstname = db.Column(db.String(), nullable=False)
     lastname = db.Column(db.String())
-    nickname = db.Column(db.String())
     is_admin = db.Column(db.Boolean(), nullable=False, default=False)
 
 
