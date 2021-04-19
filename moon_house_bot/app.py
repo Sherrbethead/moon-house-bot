@@ -38,7 +38,9 @@ def chat_checker(login_required: bool = True):
                     return await func(message, user)
                 elif user and message.chat.type == 'private':
                     return await func(message)
+
         return wrapper
+
     return decorator
 
 
@@ -61,7 +63,6 @@ new_user_data = CallbackData('new_user', 'accept', 'id')
 party_manage_data = CallbackData('party_manage', 'id', 'using_sofa')
 party_edit_data = CallbackData('party_edit', 'edit_type', 'id')
 sofa_using_edit_data = CallbackData('sofa_using_edit', 'using', 'id')
-
 
 DISHWASHER_TIME_LOADING = 4
 
@@ -628,17 +629,17 @@ async def show_cron_rating():
     if rating:
         await bot.send_message(settings.target_chat_id, rating)
         if users_without_notifications:
-            tag_users = [f'[{u.firstname}](tg://user?id={u.chat_id})'for u in users_without_notifications]
+            tag_users = [f'[{u.firstname}](tg://user?id={u.chat_id})' for u in users_without_notifications]
             plurality_message = 'вас' if len(users_without_notifications) > 1 else 'тебя'
             return await bot.send_message(
                 settings.target_chat_id,
-                f'{" ,".join(tag_users)}, у {plurality_message} по нулям, пора сделать что-то полезное в квартире',
-                parse_mode='Markdown'
+                f'{" ,".join(tag_users)}, у {plurality_message} по нулям, пора сделать что\-то полезное в квартире',
+                parse_mode='MarkdownV2'
             )
         return await bot.send_message(
             settings.target_chat_id,
             f'[{worst_user_with_notifications.firstname}](tg://user?id={worst_user_with_notifications.chat_id}), '
-            f'пришла твоя очередь сделать что-то полезное в квартире',
+            f'пришла твоя очередь сделать что\-то полезное в квартире',
             parse_mode='MarkdownV2'
         )
 
@@ -673,7 +674,7 @@ async def check_dishwasher_loading():
     ))
     dishwasher_last_notification = await notification_query.order_by(Notification.created.desc()).gino.first()
     dishwasher_working_minutes = timedelta(minutes=DISHWASHER_TIME_LOADING)
-    if dishwasher_last_notification.notification_type == 'dishwasher_load' and\
+    if dishwasher_last_notification.notification_type == 'dishwasher_load' and \
             dishwasher_last_notification.created + dishwasher_working_minutes > datetime.now().astimezone():
         scheduler.add_job(
             send_dishwasher_unload_notify,
@@ -685,9 +686,9 @@ async def check_dishwasher_loading():
 def schedule_daily_notifications():
     now = datetime.now()
 
-    scheduler.add_job(show_cron_rating, 'cron', hour=12, minute=0)
-    scheduler.add_job(show_cron_closest_parties, 'cron', hour=12, minute=1)
-    scheduler.add_job(check_dishwasher_loading, 'cron', hour=now.hour, minute=now.minute+1)
+    scheduler.add_job(show_cron_rating, 'cron', hour=14, minute=25)
+    scheduler.add_job(show_cron_closest_parties, 'cron', hour=14, minute=1)
+    scheduler.add_job(check_dishwasher_loading, 'cron', hour=now.hour, minute=now.minute + 1)
 
 
 async def on_startup(dp):
