@@ -9,12 +9,11 @@ from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.utils.callback_data import CallbackData
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from sqlalchemy import Date, and_, text, case
+from sqlalchemy import Date, and_, case, text
 
 from aiogramcalendar import calendar_callback, create_calendar, process_calendar_selection
 from config import settings
 from moon_house_bot.database import Notification, Party, User, db
-
 
 bot = Bot(token=settings.token)
 dp = Dispatcher(bot, storage=MemoryStorage())
