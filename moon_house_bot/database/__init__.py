@@ -1,10 +1,9 @@
-from pony.orm import Database
+from .db import db
+from .models import User, Notification, Party
 
-from config import settings
-
-db = Database()
-db.bind(provider=settings.database.provider,
-        user=settings.database.user,
-        password=settings.database.password,
-        host=settings.database.host,
-        database=settings.database.name)
+__all__ = [
+    'db',
+    'User',
+    'Notification',
+    'Party'
+]

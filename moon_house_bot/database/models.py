@@ -1,38 +1,29 @@
-from datetime import datetime, date
-
-from pony.orm import PrimaryKey, Required, Set, Optional
-
-from moon_house_bot.database import db
+from moon_house_bot.database.db import BaseModel, db
 
 
-class Users(db.Entity):
-    chat_id = PrimaryKey(int)
-    firstname = Required(str)
-    lastname = Optional(str)
-    nickname = Optional(str)
-    is_admin = Required(bool, default=False)
-    created = Required(datetime, default=datetime.now)
-    deleted = Optional(datetime)
-    notifications = Set('Notifications')
-    parties = Set('Parties')
+class User(BaseModel):
+    __tablename__ = 'users'
+
+    chat_id = db.Column(db.Integer(), primary_key=True, unique=True, autoincrement=False)
+    firstname = db.Column(db.String(), nullable=False)
+    lastname = db.Column(db.String())
+    nickname = db.Column(db.String())
+    is_admin = db.Column(db.Boolean(), nullable=False, default=False)
 
 
-class Notifications(db.Entity):
-    id = PrimaryKey(int, auto=True)
-    user = Required(Users, reverse='notifications')
-    notification_type = Required(str)
-    created = Required(datetime, default=datetime.now)
-    deleted = Optional(datetime)
+class Notification(BaseModel):
+    __tablename__ = 'notifications'
+
+    id = db.Column(db.Integer(), primary_key=True, unique=True)
+    user_id = db.Column(db.ForeignKey(F'{User.__tablename__}.chat_id'), nullable=False)
+    notification_type = db.Column(db.String(), nullable=False)
 
 
-class Parties(db.Entity):
-    id = PrimaryKey(int, auto=True)
-    user = Required(Users, reverse='parties')
-    party_date = Required(date)
-    guests_amount = Optional(int)
-    using_sofa = Required(bool)
-    created = Required(datetime, default=datetime.now)
-    deleted = Optional(datetime)
+class Party(BaseModel):
+    __tablename__ = 'parties'
 
-
-db.generate_mapping(create_tables=True)
+    id = db.Column(db.Integer(), primary_key=True, unique=True)
+    user_id = db.Column(db.ForeignKey(F'{User.__tablename__}.chat_id'), nullable=False)
+    party_date = db.Column(db.Date(), nullable=False)
+    guests_amount = db.Column(db.Integer(), nullable=False)
+    using_sofa = db.Column(db.Boolean(), nullable=False)

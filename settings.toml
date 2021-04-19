@@ -1,3 +1,6 @@
+host = '0.0.0.0'
+port = 8443
+webhook = {host = 'domain'}
 token = 'very very secret'
 target_chat_id = 'secret as hell'
 database = {provider = 'postgres', user = 'postgres', password = 'postgres', host = 'localhost', name = 'moon_house'}

@@ -1,7 +1,8 @@
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from aiogram.utils.callback_data import CallbackData
-from datetime import date, timedelta
 import calendar
+from datetime import date, timedelta
+
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from aiogram.utils.callback_data import CallbackData
 
 # setting callback_data prefix and parts
 calendar_callback = CallbackData('calendar', 'act', 'year', 'month', 'day')
@@ -42,6 +43,10 @@ def create_calendar(year=date.today().year, month=date.today().month):
                 inline_kb.insert(
                     InlineKeyboardButton(str(day), callback_data=calendar_callback.new('DAY', year, month, day))
                 )
+    inline_kb.row()
+    inline_kb.insert(InlineKeyboardButton(
+        'Отменить выбор', callback_data=calendar_callback.new('ROLLBACK', year, month, 0))
+    )
 
     return inline_kb
 
@@ -58,6 +63,9 @@ async def process_calendar_selection(query, data):
     return_date = None
     temp_date = date(int(data['year']), int(data['month']), 1)
     # processing empty buttons, answering with no action
+    if data['act'] == 'ROLLBACK':
+        await query.message.delete_reply_markup()
+        return data['act']
     if data['act'] == 'IGNORE':
         await query.answer(cache_time=60)
     # user picked a day button, return date
