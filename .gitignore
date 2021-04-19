@@ -3,7 +3,7 @@
 .idea/
 
 # Dynaconf
-.secrets.*
+.secrets.toml
 *.local.*
 
 # Environments
