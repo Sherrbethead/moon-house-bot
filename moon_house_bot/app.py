@@ -701,6 +701,7 @@ async def on_startup(dp):
     logging.info('Starting app...')
     url = f'postgresql://{settings.database.user}:{settings.database.password}' \
           f'@{settings.database.host}:5432/{settings.database.name}'
+    logging.info(f'Connecting to DB: {url}')
     await db.set_bind(url)
     await db.gino.create_all()
     schedule_daily_notifications()
